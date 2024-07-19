@@ -102,7 +102,7 @@ public class GridXZ<TGridObject> {
     }
 
     public TGridObject GetGridObject(int x, int z) {
-        if (x >= 0 && z >= 0 && x < width && z < height) {
+         if (x >= 0 && z >= 0 && x < width && z < height) {
             return gridArray[x, z];
         } else {
             return default(TGridObject);
