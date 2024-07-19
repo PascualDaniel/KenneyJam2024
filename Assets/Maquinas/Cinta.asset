@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cinta
   m_EditorClassIdentifier: 
   nameString: Cinta
-  prefab: {fileID: 5855378585395690843, guid: 3eb23ad40f9bdcc47876dd1b7dbe9fc9, type: 3}
+  prefab: {fileID: 5855378585395690843, guid: 8dd1e016acd1db5419686b5c0ccd0bcf, type: 3}
   visual: {fileID: 5855378585395690843, guid: 3eb23ad40f9bdcc47876dd1b7dbe9fc9, type: 3}
   width: 1
   height: 1
