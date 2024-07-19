@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7747bdf78fa6141a2f81d16ff91e5f, type: 3}
+  m_Name: Extractor
+  m_EditorClassIdentifier: 
+  nameString: Extractor
+  prefab: {fileID: 1376874162091736792, guid: 3b59d3e6ea80b3a40be62e7b29cd2b65, type: 3}
+  visual: {fileID: 1376874162091736792, guid: d32ad30b3ee1caa4fa917ac536ad7d28, type: 3}
+  width: 1
+  height: 1

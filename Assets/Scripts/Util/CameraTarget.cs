@@ -52,7 +52,20 @@ public class CameraTarget : MonoBehaviour {
             moveDir = UtilsClass.ApplyRotationToVectorXZ(moveDir, 30f);
         }
 
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
+        transform.position += ((transform.forward * moveY) + (transform.right * moveX)) * moveSpeed * Time.deltaTime;
+
+
+
+        float rotateY = 0f;
+        if (Input.GetKey(KeyCode.Q)) {
+            rotateY = +1f;
+        }
+        if (Input.GetKey(KeyCode.E)) {
+            rotateY = -1f;
+        }
+
+        float rotateSpeed = 180f;
+        transform.eulerAngles += new Vector3(0, rotateY, 0) * rotateSpeed * Time.deltaTime;
     }
 
 }
