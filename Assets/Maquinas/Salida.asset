@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e7747bdf78fa6141a2f81d16ff91e5f, type: 3}
-  m_Name: Cinta2
+  m_Name: Salida
   m_EditorClassIdentifier: 
-  nameString: cinta2
-  prefab: {fileID: 7482323138766321223, guid: ac044bfa286b1834495ddbaba2ec9096, type: 3}
-  visual: {fileID: 7482323138766321223, guid: 0586c43e89f86ca42964919b1cac8e07, type: 3}
-  width: 2
+  nameString: Salida
+  prefab: {fileID: 7369667464093267232, guid: 5bbf06efc42aa5c4b8f6696043b3330b, type: 3}
+  visual: {fileID: 7369667464093267232, guid: 2ea11a70448c59743aa1bac2cd7a7468, type: 3}
+  width: 1
   height: 1

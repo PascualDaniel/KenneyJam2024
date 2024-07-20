@@ -22,13 +22,15 @@ public class Extractor : PlacedObject
     private float timer;
     private float grabTimer;
 
+    private Caja caja;
+
     private State state;
     protected override void Setup()
     {
         grabPosition = origin + PlacedObjectTypeSO.GetDirForwardVector(dir) * -1;
         dropPosition = origin + PlacedObjectTypeSO.GetDirForwardVector(dir);
 
-       
+
 
         state = State.Cooldown;
     }
@@ -41,7 +43,7 @@ public class Extractor : PlacedObject
         {
             default:
             case State.Cooldown:
-             
+
                 timer -= Time.deltaTime;
                 if (timer <= 0f)
                 {
@@ -49,38 +51,60 @@ public class Extractor : PlacedObject
                 }
                 break;
             case State.WaitingForItemToGrab:
-           
+
                 PlacedObject grabPlacedObject = GridBuildingSystem3D.Instance.GetGridObject(grabPosition).GetPlacedObject();
                 PlacedObject dropPlacedObject = GridBuildingSystem3D.Instance.GetGridObject(dropPosition).GetPlacedObject();
-              
-                if (grabPlacedObject != null && dropPlacedObject != null) 
+
+                if (grabPlacedObject != null && dropPlacedObject != null)
                 {
-                     if (grabPlacedObject is Generator) {
-                       
+
+
+                    if (grabPlacedObject is Generator)
+                    {
+
                         Generator generator = grabPlacedObject as Generator;
-                            if (generator.GetItemCount() > 0) {
-                                state = State.MovingToDropItem;
-                                grabTimer = 0.5f;
-                                generator.SetItemCount(generator.GetItemCount() - 1);
-                                //Debug.Log(generator.GetItemCount());
-                                UtilsClass.CreateWorldTextPopup(generator.GetItemCount().ToString(), transform.position);
-                            }
+                        if (generator.HasCaja())
+                        {
+
+                            state = State.MovingToDropItem;
+                            grabTimer = 0.5f;
+                            caja = generator.GetCaja();
+                            generator.RemoveCaja();
+                            UtilsClass.CreateWorldTextPopup("Caja", transform.position);
+
                         }
+                    }
                 }
-                
+
                 break;
-             case State.MovingToDropItem:
+            case State.MovingToDropItem:
                 timer -= Time.deltaTime;
-                if (timer <= 0f) {
+                caja.SetGridPosition(GetGridPosition());
+                if (timer <= 0f)
+                {
+
                     state = State.DroppingItem;
                 }
                 break;
             case State.DroppingItem:
+                dropPlacedObject = GridBuildingSystem3D.Instance.GetGridObject(dropPosition).GetPlacedObject();
+                if (dropPlacedObject != null)
+                {
+                    if (dropPlacedObject is ConveyorBelt)
+                    {
 
-                state = State.Cooldown;
-                float COOLDOWN_TIME = .2f;
-                timer = COOLDOWN_TIME;
-                
+                        ConveyorBelt belt = dropPlacedObject as ConveyorBelt;
+                        belt.SetCaja(caja);
+                        caja.SetGridPosition(belt.GetGridPosition());
+                        caja = null;
+
+                        state = State.Cooldown;
+                        float COOLDOWN_TIME = .2f;
+                        timer = COOLDOWN_TIME;
+
+                    }
+                }
+
                 break;
         }
     }

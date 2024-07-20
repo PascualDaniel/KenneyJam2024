@@ -1,20 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Generator : PlacedObject
 {
     
-    [SerializeField] private int itemCount;
 
-    public int GetItemCount()
+    [SerializeField] private Transform cajaPrefab;
+
+    public Caja caja;
+
+    protected override void Setup()
     {
-        return itemCount;
+        caja = Caja.Create(origin, cajaPrefab);
+        Debug.Log("Caja creada en " + GetGridPosition() + caja);
     }
 
-    public void SetItemCount(int itemCount)
+    public Caja GetCaja()
     {
-        this.itemCount = itemCount;
+        return caja;
     }
+
+    public void RemoveCaja()
+    {
+        caja = null;
+    }
+
+    public bool HasCaja()
+    {
+       return caja != null;
+    }
+
+
+
    
 }

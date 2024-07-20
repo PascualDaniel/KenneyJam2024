@@ -477,7 +477,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placedObjectTypeSOList:
   - {fileID: 11400000, guid: 5201d25121d8c32478a5c9c72c7f20ab, type: 2}
-  - {fileID: 11400000, guid: 67cdceabb6dcdb54683052a64b3614b9, type: 2}
+  - {fileID: 11400000, guid: 5bd4fb724889d244b873d44f576ac427, type: 2}
+  - {fileID: 11400000, guid: 1cf5715f5cbf95e4ab63e618a2add99a, type: 2}
+  - {fileID: 11400000, guid: 71ec07c8e9e4f2b4b94ad3feef840552, type: 2}
 --- !u!1 &2047956940
 GameObject:
   m_ObjectHideFlags: 0

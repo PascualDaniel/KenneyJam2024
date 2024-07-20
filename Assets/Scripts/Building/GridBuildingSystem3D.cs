@@ -217,4 +217,9 @@ public class GridBuildingSystem3D : MonoBehaviour
     {
         return grid.GetGridObject(worldPosition);
     }
+
+    public Vector3 GetWorldPosition(Vector2Int gridPosition) {
+        return grid.GetWorldPosition(gridPosition.x, gridPosition.y);
+    }
+
 }

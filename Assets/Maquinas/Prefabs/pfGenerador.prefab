@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7c6ee900ed7f945bfa2377732e1c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemCount: 10
+  cajaPrefab: {fileID: 428214293295230336, guid: a14477ffa2b3a364294c62d04c7fea1c, type: 3}
+  caja: {fileID: 0}
 --- !u!1001 &3783714559638536408
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72,7 +73,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527390b6d2dcb44478f40a3c4150396f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527390b6d2dcb44478f40a3c4150396f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -80,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527390b6d2dcb44478f40a3c4150396f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527390b6d2dcb44478f40a3c4150396f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -88,11 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527390b6d2dcb44478f40a3c4150396f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527390b6d2dcb44478f40a3c4150396f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527390b6d2dcb44478f40a3c4150396f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -100,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527390b6d2dcb44478f40a3c4150396f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527390b6d2dcb44478f40a3c4150396f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
