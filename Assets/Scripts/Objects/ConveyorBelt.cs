@@ -10,6 +10,14 @@ public class ConveyorBelt : PlacedObject
     private Vector2Int nextPosition;
 
     private Caja caja;
+    float COOLDOWN_TIME = 1f;
+    private State state;
+    private enum State
+    {
+        Cooldown,
+        MovingToDropItem
+    }
+    private float timer;
 
     protected override void Setup()
     {
@@ -17,6 +25,8 @@ public class ConveyorBelt : PlacedObject
 
         previousPosition = origin + PlacedObjectTypeSO.GetDirForwardVector(dir) * -1;
         nextPosition = origin + PlacedObjectTypeSO.GetDirForwardVector(dir);
+
+        state = State.Cooldown;
     }
 
 
@@ -30,39 +40,60 @@ public class ConveyorBelt : PlacedObject
 
     public void Update()
     {
-        if (!IsEmpty() && GetCaja().CanMove())
+
+        switch (state)
         {
-            PlacedObject nextPlacedObject = GridBuildingSystem3D.Instance.GetGridObject(nextPosition).GetPlacedObject();
-            if (nextPlacedObject != null)
-            {
-                // Has object next
-                if (nextPlacedObject is ConveyorBelt)
+            default:
+            case State.Cooldown:
+
+                timer -= Time.deltaTime;
+                if (timer <= 0f)
                 {
-                    ConveyorBelt conveyorBelt = nextPlacedObject as ConveyorBelt;
-                    if (conveyorBelt.TrySetWorldItem(caja))
+                    state = State.MovingToDropItem;
+                }
+                break;
+            case State.MovingToDropItem:
+
+                if (!IsEmpty() && GetCaja().CanMove())
+                {
+                    PlacedObject nextPlacedObject = GridBuildingSystem3D.Instance.GetGridObject(nextPosition).GetPlacedObject();
+                    if (nextPlacedObject != null)
                     {
-                        // Successfully moved item onto next slot
-                        // Move World Item
-                        caja.SetGridPosition(conveyorBelt.GetGridPosition());
+                        // Has object next
+                        if (nextPlacedObject is ConveyorBelt)
+                        {
+                            ConveyorBelt conveyorBelt = nextPlacedObject as ConveyorBelt;
+                            if (conveyorBelt.TrySetWorldItem(caja))
+                            {
+                                ItemResetHasAlreadyMoved();
+                                // Successfully moved item onto next slot
+                                // Move World Item
+                                caja.SetGridPosition(conveyorBelt.GetGridPosition());
 
+                                
+                                // Remove current world item
+                                RemoveWorldItem();
+                            }
+                        }
 
-                        // Remove current world item
-                        RemoveWorldItem();
+                        if (nextPlacedObject is Salida)
+                        {
+                            Salida salida = nextPlacedObject as Salida;
+
+                            caja.SetGridPosition(salida.GetGridPosition());
+                            salida.cargarCaja(caja);
+
+                            CodeMonkey.Utils.UtilsClass.CreateWorldTextPopup("Caja entregada", transform.position);
+
+                        }
+
+                 
+                        timer = COOLDOWN_TIME;
+                        state = State.Cooldown;
+
                     }
                 }
-
-                if (nextPlacedObject is Salida)
-                {
-                    Salida salida = nextPlacedObject as Salida;
-                    
-                    caja.SetGridPosition(salida.GetGridPosition());
-                    salida.cargarCaja(caja);
-
-                    CodeMonkey.Utils.UtilsClass.CreateWorldTextPopup("Caja entregada", transform.position);
-
-                }
-
-            }
+                break;
         }
     }
 
@@ -96,6 +127,8 @@ public class ConveyorBelt : PlacedObject
         if (IsEmpty())
         {
             this.caja = caja;
+             timer = COOLDOWN_TIME;
+                        state = State.Cooldown;
             return true;
         }
         else

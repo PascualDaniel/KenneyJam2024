@@ -7,54 +7,65 @@ using UnityEngine;
 
 public class Caja : MonoBehaviour
 {
- 
+
     private static Transform model;
     public static Vector2Int gridPos;
     private bool hasAlreadyMoved;
- 
-    public static Caja  Create(Vector2Int gridPosition,Transform modelo) {
+
+    float COOLDOWN_TIME = .1f;
+    float timer;
+
+   
+
+
+    public static Caja Create(Vector2Int gridPosition, Transform modelo)
+    {
         model = modelo;
         gridPos = gridPosition;
-        Transform worldItemTransform = Instantiate(modelo,  GridBuildingSystem3D.Instance.GetWorldPosition(gridPosition), Quaternion.identity);
+        Transform worldItemTransform = Instantiate(modelo, GridBuildingSystem3D.Instance.GetWorldPosition(gridPosition), Quaternion.identity);
 
         Caja caja = worldItemTransform.GetComponent<Caja>();
         caja.SetGridPosition(gridPosition);
+
         return caja;
     }
 
 
 
-    private void Start() {
+    private void Start()
+    {
         //put the model in the right position   
         // transform.position = GridBuildingSystem3D.Instance.GetWorldPosition(gridPosition);
 
     }
-    
-    private void Update() {
-      
+
+    private void Update()
+    {
         transform.position = Vector3.Lerp(transform.position, GridBuildingSystem3D.Instance.GetWorldPosition(gridPos), Time.deltaTime * 10f);
-    
-        
+    }
 
-       }
-
-     public void SetGridPosition(Vector2Int gridPosition) {
+    public void SetGridPosition(Vector2Int gridPosition)
+    {
         gridPos = gridPosition;
     }
 
-    public bool CanMove() {
+    public bool CanMove()
+    {
         return !hasAlreadyMoved;
     }
 
-    public void SetHasAlreadyMoved() {
+    public void SetHasAlreadyMoved()
+    {
         hasAlreadyMoved = true;
     }
 
-    public void ResetHasAlreadyMoved() {
+    public void ResetHasAlreadyMoved()
+    {
         hasAlreadyMoved = false;
     }
 
-    public void DestroySelf() {
+    public void DestroySelf()
+    {
         Destroy(gameObject);
     }
 }

@@ -18,6 +18,18 @@ public class GridBuildingSystem3D : MonoBehaviour
     private PlacedObjectTypeSO placedObjectTypeSO;
     private PlacedObjectTypeSO.Dir dir;
 
+    [System.Serializable]
+    public class PlacedObjects
+    {
+        public PlacedObjectTypeSO machine;
+        public Vector2Int gridPosition;
+
+        public PlacedObjectTypeSO.Dir dir;
+    }
+
+    [SerializeField]
+    private List<PlacedObjects> objects = null;
+
     private void Awake()
     {
         Instance = this;
@@ -26,6 +38,25 @@ public class GridBuildingSystem3D : MonoBehaviour
         int gridHeight = 10;
         float cellSize = 10f;
         grid = new GridXZ<GridObject>(gridWidth, gridHeight, cellSize, new Vector3(0, 0, 0), (GridXZ<GridObject> g, int x, int y) => new GridObject(g, x, y));
+
+       //Place every object in the list
+        foreach (PlacedObjects obj in objects)
+        {
+            Vector2Int placedObjectOrigin = obj.gridPosition;
+            placedObjectOrigin = grid.ValidateGridPosition(placedObjectOrigin);
+
+            Vector2Int rotationOffset = obj.machine.GetRotationOffset(obj.dir);
+            Vector3 placedObjectWorldPosition = grid.GetWorldPosition(placedObjectOrigin.x, placedObjectOrigin.y) + new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.GetCellSize();
+
+            PlacedObject placedObject = PlacedObject.Create(placedObjectWorldPosition, placedObjectOrigin, obj.dir, obj.machine);
+
+            List<Vector2Int> gridPositionList = obj.machine.GetGridPositionList(placedObjectOrigin, obj.dir);
+            foreach (Vector2Int gridPosition in gridPositionList)
+            {
+                grid.GetGridObject(gridPosition.x, gridPosition.y).SetPlacedObject(placedObject);
+            }
+        }
+    
 
         placedObjectTypeSO = null;// placedObjectTypeSOList[0];
     }
@@ -126,11 +157,7 @@ public class GridBuildingSystem3D : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) { placedObjectTypeSO = placedObjectTypeSOList[0]; RefreshSelectedObjectType(); }
-        if (Input.GetKeyDown(KeyCode.Alpha2)) { placedObjectTypeSO = placedObjectTypeSOList[1]; RefreshSelectedObjectType(); }
-        if (Input.GetKeyDown(KeyCode.Alpha3)) { placedObjectTypeSO = placedObjectTypeSOList[2]; RefreshSelectedObjectType(); }
-        if (Input.GetKeyDown(KeyCode.Alpha4)) { placedObjectTypeSO = placedObjectTypeSOList[3]; RefreshSelectedObjectType(); }
-        if (Input.GetKeyDown(KeyCode.Alpha5)) { placedObjectTypeSO = placedObjectTypeSOList[4]; RefreshSelectedObjectType(); }
-        if (Input.GetKeyDown(KeyCode.Alpha6)) { placedObjectTypeSO = placedObjectTypeSOList[5]; RefreshSelectedObjectType(); }
+
 
         if (Input.GetKeyDown(KeyCode.Alpha0)) { DeselectObjectType(); }
 
@@ -218,7 +245,8 @@ public class GridBuildingSystem3D : MonoBehaviour
         return grid.GetGridObject(worldPosition);
     }
 
-    public Vector3 GetWorldPosition(Vector2Int gridPosition) {
+    public Vector3 GetWorldPosition(Vector2Int gridPosition)
+    {
         return grid.GetWorldPosition(gridPosition.x, gridPosition.y);
     }
 
